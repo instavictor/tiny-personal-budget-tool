@@ -1,0 +1,12 @@
+{
+  "name": "personal-budget-tool",
+  "version": "0.0.1",
+  "description": "blah blah",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-eslint": "^4.1.1",
+    "eslint": "^1.4.1",
+    "eslint-config-airbnb": "0.0.8",
+    "react-tools": "^0.13.3"
+  }
+}
