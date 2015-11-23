@@ -1,10 +1,8 @@
 var app = require('js/controllers/Poo');
-var view = require('js/views/table.jsx');
 
-function test() {
-
+if (__DEV__) {
+  console.warn('Dev enabled: extra logging');
 }
 
 module.exports = window.app = app;
-console.log(app);
 // exports.app = test;

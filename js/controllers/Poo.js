@@ -5,13 +5,11 @@ var editor = $('#editor');
 var lookupTable = [];
 
 var $confirm = $('#confirm');
-var $addLabel = $('#add-label');
 
 var source = Rx.Observable.fromEvent($confirm, 'click');
 // var addSource = Rx.Observable.fromEvent($addLabel, 'click');
 
-var defaultLabels = [];
-lnsView.display(defaultLabels);
+lnsView.display();
 
 /**
 Return parse table array if it's pasted from Excel
