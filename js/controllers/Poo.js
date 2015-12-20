@@ -9,7 +9,7 @@ var $confirm = $('#confirm');
 var source = Rx.Observable.fromEvent($confirm, 'click');
 // var addSource = Rx.Observable.fromEvent($addLabel, 'click');
 
-lnsView.display();
+// lnsView.display();
 
 /**
 Return parse table array if it's pasted from Excel
