@@ -13,7 +13,7 @@ The credit card statements are exported as CSVs and then opened in Excel.  I the
 Paste Excel columns into this app.  Color code (or categorize selections).  Outputs are total $ spent for each category.
 
 Time wasted per year doing old way: 8+ hours  
-Expected time wasted per year doing new way:  < 1 hour + learning Facebook React (for Views), ESLint, Windows 10, Gulp
+Expected time wasted per year doing new way:  < 1 hour + learning Facebook React (for Views), ESLint, Windows 10, Webpack
 
 ## Dependencies
 

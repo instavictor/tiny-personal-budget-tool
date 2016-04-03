@@ -6,61 +6,14 @@
 */
 
 var React = require('react');
-var ReactDOM = require('react-dom');
-var FIT = require('js/views/FIT.jsx'); // FIT jsx view frag
-
 var config = require('js/config');
 
-var colorFilter;
-var onFilterChanged = function(filter) {
-  colorFilter = filter;
-  console.log(filter);
-};
-
 var DOT = React.createClass({
-  getInitialState: function() {
-    return {
-      store: config.defaultLabels
-    };
-  },
-
-  onFilterChanged: onFilterChanged,
-
-  onFilterRowChanged: function(category, price) {
-    var tempStore = this.state.store;
-    var updatedPrice = price + Number(tempStore[category].spent);
-    tempStore[category].spent = updatedPrice.toFixed(2);
-
-    this.setState(tempStore);
-
-    // var totalSpent = 0;
-    // if (this.state && !isNaN(this.state.totalSpent)) {
-    //   totalSpent += this.state.totalSpent + price;
-    // }
-
-    // this.setState({
-    //   category: category,
-    //   totalSpent: totalSpent
-    // });
-  },
-
-  render: function() {
-    return (
-      <div>
-        <FIT data-id="lns" data={this.props.data} store={this.state.store} onFilterChanged={this.onFilterChanged}/>
-        <table>
-          <DOTRow data={this.props.data} store={this.state.store} onFilterChanged={this.onFilterRowChanged} />
-        </table>
-      </div>
-    );
-  }
-});
-
-var DOTRow = React.createClass({
   getInitialState: function getInitialState() {
     return {
       labels: config.defaultLabels,
-      activeFilter: null
+      activeFilter: null,
+      rowFilterMap: [] // lookup by index for what filters have been applied to which rows
     };
   },
 
@@ -69,18 +22,45 @@ var DOTRow = React.createClass({
   */
   handleClick: function(e) {
     var index;
+    var tempRowFilterMap;
+
+    var colorFilter = this.props.activeFilter;
 
     e.preventDefault();
 
     switch (e.button) {
       case 0: // left click
-
         if (e.target.parentElement.style.backgroundColor !== this.props.store[colorFilter].color) {
-          e.target.parentElement.style.backgroundColor = this.props.store[colorFilter].color;
-
           index = +e.target.parentElement.getAttribute('data-index');
 
+          tempRowFilterMap = this.state.rowFilterMap;
+
+          if (tempRowFilterMap[index]) {
+            // old filter exists, so remove the value from old filter first
+            this.props.onFilterChanged(tempRowFilterMap[index], (+this.props.data[index].price) * -1);
+          }
+
+          tempRowFilterMap[index] = colorFilter;
+
+          this.setState({
+            rowFilterMap: tempRowFilterMap
+          }); // update state for row filter map
+
+          e.target.parentElement.style.backgroundColor = this.props.store[colorFilter].color;
+
           this.props.onFilterChanged(colorFilter, +this.props.data[index].price);
+        } else if (e.target.parentElement.style.backgroundColor === this.props.store[colorFilter].color) {
+          index = +e.target.parentElement.getAttribute('data-index');
+          this.resetBackgroundColor(e.target);
+
+          tempRowFilterMap = this.state.rowFilterMap;
+          tempRowFilterMap[index] = null;
+
+          this.setState({
+            rowFilterMap: tempRowFilterMap
+          });
+
+          this.props.onFilterChanged(colorFilter, (+this.props.data[index].price) * -1);
         }
 
         break;
@@ -93,8 +73,10 @@ var DOTRow = React.createClass({
         // do nothing
         break;
     }
+  },
 
-    // e.target.style.backgroundColor = 'red';
+  resetBackgroundColor: function(target) {
+    target.parentElement.style.backgroundColor = 'transparent';
   },
 
   handleRightClick: function(e) {
@@ -105,7 +87,7 @@ var DOTRow = React.createClass({
   render: function tableRowRender() {
     var commentNodes = this.props.data.map(function nodeMap(comment) {
       return (
-        <tr style={{ backgroundColor: 'gray' }} key={comment.id} data-index={comment.id} onMouseUp={this.handleClick} >
+        <tr style={{ backgroundColor: 'transparent' }} key={comment.id} data-index={comment.id} onMouseUp={this.handleClick} >
           <td>{comment.purchase}</td>
           <td>{comment.price}</td>
         </tr>
@@ -113,20 +95,13 @@ var DOTRow = React.createClass({
     }.bind(this));
 
     return (
-      <tbody onContextMenu={this.handleRightClick}>
-        {commentNodes}
-      </tbody>
+      <table id="dot">
+        <tbody onContextMenu={this.handleRightClick}>
+          {commentNodes}
+        </tbody>
+      </table>
     );
   }
 });
 
-var pewpew = {
-  display: function(data) {
-    ReactDOM.render(
-      <DOT data={data} />,
-      document.getElementById('ttr')
-    );
-  }
-};
-
-module.exports = pewpew;
+module.exports = DOT;

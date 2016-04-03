@@ -1,18 +1,12 @@
-var view = require('js/views/table.jsx');
-var lnsView = require('js/views/LNS.jsx');
+var view = require('js/views/Brain.jsx');
 
-var editor = $('#editor');
+var editor = $('#form .content');
 var lookupTable = [];
 
 var $confirm = $('#confirm');
 
-var source = Rx.Observable.fromEvent($confirm, 'click');
-// var addSource = Rx.Observable.fromEvent($addLabel, 'click');
-
-// lnsView.display();
-
 /**
-Return parse table array if it's pasted from Excel
+  Return parsed table array if it's pasted from Excel
 */
 function parseTable() {
   var i;
@@ -39,35 +33,28 @@ function parseTable() {
   return lookupTable;
 }
 
+/**
+  Return parsed table array if it's pasted from csv
+*/
 function parseCSV() {
   // TODO:
   return false;
 }
 
-source.subscribe(
-  function success() {
-    // 1 - parse data inputs
-    var ret = parseTable();
-    if (!ret) {
-      ret = parseCSV();
-    }
-
-    // 2 - display tables
-    if (ret) {
-      view.display(lookupTable);
-      this.completed();
-    } else {
-      this.error('stuff');
-    }
-  },
-
-  function error(err) {
-    console.log('Error: %s', err);
-  },
-  function complete() {
-    console.log('Completed');
+$confirm.on('click', function() {
+  var ret = parseTable();
+  if (!ret) {
+    ret = parseCSV();
   }
-);
+
+  // 2 - display tables
+  if (ret) {
+    view.display(lookupTable);
+    $('#form').css('display', 'none');
+  } else {
+    this.error('stuff');
+  }
+});
 
 editor.on('focus', function f() {
   console.log($(this).html());

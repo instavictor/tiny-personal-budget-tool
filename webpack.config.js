@@ -15,15 +15,14 @@ if (isDevEnabled) {
 
 // Aliasing provider plugins
 var providePlugin = new webpack.ProvidePlugin({
-  $: 'jquery',
-  Rx: 'rx'
+  $: 'jquery'
 });
 
 module.exports = {
   entry: './app.js',
   output: {
     path: 'dist',
-    filename: 'bundle.js'
+    filename: 'pbt.js'
   },
   module: {
     loaders: [
@@ -42,8 +41,7 @@ module.exports = {
     root: path.resolve('.'),
     extensions: ['', '.js', '.json'],
     alias: {
-      jquery: 'lib/jquery-2.1.4.min',
-      rx: 'node_modules/rx/dist/rx.lite.min'
+      jquery: 'lib/jquery-2.1.4.min'
     }
   }
 };

@@ -5,26 +5,94 @@
     <!-- <script src="https://fb.me/react-0.13.3.js"></script> -->
    	<!-- <script src="https://fb.me/JSXTransformer-0.13.3.js"></script> -->
 
+    <link rel="stylesheet" type="text/css" href="scss/reset.css">
     <style type="text/css">
 
-      #lns {
-        float: right;
+      #fit {
+        position: absolute;
+        margin-left: 300px;
       }
 
-      #lns td {
+      #fit table {
+        border-collapse: separate;
+        border-spacing: 0 0.2em;
+        background-color: #DEDEDE;
+        width: 90%;
+        margin: auto;
+      }
+
+      #dot {
+        background-color: #DEDEDE;
+      }
+
+      #dot tr {
+        height: 24px;
+        line-height: 24px;
+      }
+
+      #fit .filter-container {
+        background-color: #DEDEDE;
+        padding: 20px 0;
+      }
+
+      #fit td {
         padding: 0.25em;
+        text-align: left;
+      }
+
+      #fit .add-filter-form {
+        background-color: #F0F0F0;
+        padding: 20px;
         text-align: center;
+      }
+
+      #form .input {
+        position: relative;
+        width: 50%;
+        top: 25%;
+        left: 0;
+        margin: auto;
+        text-align: center;
+      }
+
+      #form .content {
+        position: relative;
+        text-align: left;
+        background-color: #FFF;
+        border: 1px solid #DEDEDE; 
+        padding: 1.2em;
+        height: 50%;
+        overflow: auto;
+        border-radius: 10px;
+      }
+
+      #form button {
+        position: relative;
+        width: 35%;
+        height: 2em;
+        top: 1em;
+      }
+
+      html, body {
+        width: 100%;
+        height: 100%;
       }
     </style>
 
   </head>
   <body>
-    <div id="editor" style="border: 1px solid #000; width: 500px; height: 500px;" contentEditable="true"></div>
+    <div id="form" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: gray;">
+      <div class="input">
+        <div class="content" contentEditable="true"> </div>
+        <button id="confirm">Go!</button>
+      </div>
+
+      
+    </div>
 
     <div id="ttr"></div>
-    <button id="confirm">Process</button>
 
-    <script type="text/javascript" src="dist/bundle.js" charset="utf-8"></script>
+    <script type="text/javascript" src="dist/pbt.js" charset="utf-8"></script>
 
 <!--    <script src="js/pbt.js"></script>
     <script src="js/pbt-views.js" type="text/jsx"></script> -->
